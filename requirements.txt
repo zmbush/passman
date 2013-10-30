@@ -1,1 +1,2 @@
 pygit2==0.19.1
+pycrypto==2.6.1
