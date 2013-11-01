@@ -6,6 +6,19 @@ BLOCK_SIZE = 32
 PADDING = "#"
 
 if __name__ == "__main__":
+    import key
+
+    k = key.Key()
+
+    enc = k.encode()
+    print k.password
+    print enc
+
+    k2 = key.Key()
+    k2.decode(enc)
+
+    print k2.password
+
     password = SHA256.new('this is a password and it is rather long.').digest()
 
     pad = lambda s: s + (BLOCK_SIZE - len(s) % BLOCK_SIZE) * PADDING
