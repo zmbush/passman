@@ -65,14 +65,6 @@ class Keystore(object):
             f = open(fname, 'r')
             k = key.Key()
 
-            self.keys.append(
-                k.decode(
-                    unpad(
-                        self.c.decrypt(
-                            base64.b64decode(
-                                f.read()
-                            )
-                        )
-                    )
-                )
-            )
+            k.decode(unpad(self.c.decrypt(base64.b64decode(f.read()))))
+
+            self.keys.append(k)
