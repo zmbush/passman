@@ -27,7 +27,6 @@ class Keystore(object):
 
         if not self.exists():
             self.create()
-            self.write()
         else:
             self.read()
 

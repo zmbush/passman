@@ -23,6 +23,9 @@ class Key(object):
     def __init__(self):
         self.key_type = 'invalid'
 
+    def valid(self):
+        return self.key_type in ['site']
+
     def ensure(self, key):
         if key not in self.__dict__:
             self.__dict__[key] = random_str()
