@@ -21,14 +21,11 @@ class Key(object):
     '''
 
     def __init__(self):
-        self.data = {
-            'type': 'invalid'
-        }
-        self.ensureAll()
+        self.key_type = 'invalid'
 
     def ensure(self, key):
-        if key not in self.data:
-            self.data[key] = random_str()
+        if key not in self.__dict__:
+            self.__dict__[key] = random_str()
 
     def ensureAll(self):
         self.ensure('alias')
@@ -41,20 +38,19 @@ class Key(object):
         if alias is None:
             alias = url
 
-        self.data['type'] = 'site'
-        self.data['alias'] = alias
-        self.data['url'] = url
-        self.data['username'] = username
-        self.data['password'] = password
-        self.data['notes'] = notes
+        self.key_type = 'site'
+        self.alias = alias
+        self.url = url
+        self.username = username
+        self.password = password
+        self.notes = notes
 
     def encode(self):
-        return json.dumps(self.data)
+        self.ensureAll()
+        return json.dumps(self.__dict__)
 
     def decode(self, string):
         try:
-            self.data = json.loads(string)
+            self.__dict__ = json.loads(string)
         except:
-            self.data = {'type': 'invalid'}
-        finally:
-            self.ensureAll()
+            self.key_type = 'invalid'

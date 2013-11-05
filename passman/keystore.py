@@ -1,9 +1,11 @@
 from Crypto.Cipher import AES
 from Crypto.Hash import SHA256
+# from Crypto.Protocol.KDF import PBKDF2
 import os
 import shutil
 import key
 import base64
+import config
 
 
 def pad(s):
@@ -19,6 +21,7 @@ class Keystore(object):
         self.directory = directory
         self.max_keys = max_keys
         self.keys = []
+        self.config = config.Config()
         self.passhash = SHA256.new(password).digest()
         self.c = AES.new(self.passhash)
 
@@ -44,7 +47,10 @@ class Keystore(object):
 
     def write(self):
         print "Writing!"
-        open(os.path.join(self.directory, ".passman"), 'a').close()
+        pmconf = open(os.path.join(self.directory, ".passman"), 'w+')
+        pmconf.write(self.config.encode())
+        pmconf.close()
+
         for i, k in enumerate(self.keys):
             fname = os.path.join(self.directory, "%06d.pm" % i)
             f = open(fname, 'w+')
@@ -58,6 +64,10 @@ class Keystore(object):
         if not self.exists():
             return
 
+        pmconf = open(os.path.join(self.directory, ".passman"), 'r')
+        self.config.decode(pmconf.read())
+        pmconf.close()
+
         self.keys = []
 
         for i in range(self.max_keys):
@@ -66,5 +76,7 @@ class Keystore(object):
             k = key.Key()
 
             k.decode(unpad(self.c.decrypt(base64.b64decode(f.read()))))
+
+            f.close()
 
             self.keys.append(k)
