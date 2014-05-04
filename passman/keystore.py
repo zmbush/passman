@@ -1,6 +1,7 @@
 from Crypto.Cipher import AES
 from Crypto.Hash import SHA256
-# from Crypto.Protocol.KDF import PBKDF2
+from Crypto.Protocol.KDF import PBKDF2
+
 import os
 import shutil
 import key
