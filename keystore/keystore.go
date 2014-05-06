@@ -4,8 +4,8 @@ import (
   "github.com/libgit2/git2go"
 )
 
-func Init(directory string) error {
-  _, err := git.InitRepository(directory, false)
+func Init(c *Config) error {
+  _, err := git.InitRepository(c.Directory, false)
 
   if err != nil {
     return err
@@ -13,5 +13,3 @@ func Init(directory string) error {
 
   return nil
 }
-
-
