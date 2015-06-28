@@ -38,3 +38,7 @@ nosetests.xml
 .ropeproject
 *.pm
 .passman
+
+# rust
+target
+*.racertmp
