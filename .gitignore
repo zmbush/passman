@@ -42,3 +42,11 @@ nosetests.xml
 # rust
 target
 *.racertmp
+
+# vim
+.*.swp
+.*.swo
+.*.swn
+.*.swm
+.*.swl
+.*.swk

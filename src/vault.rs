@@ -8,10 +8,10 @@ use crypto::{encrypt, decrypt, gen_bytes, getpass, derive_key};
 
 #[derive(Debug)]
 pub struct Vault<T: Decodable + Encodable + Debug> {
-    version: String,
+    pub version: String,
     master_key: Option<Vec<u8>>,
     salt: Option<Vec<u8>>,
-    objects: Vec<T>
+    pub objects: Vec<T>
 }
 
 impl<T: Decodable + Encodable + Debug> Default for Vault<T> {
@@ -31,14 +31,14 @@ impl<T: Decodable + Encodable + Debug> ToString for Vault<T> {
         let master_key = self.master_key.clone().unwrap_or_else(|| derive_key(&getpass(), &salt));
         let data = json::as_json(&self.objects);
         let (iv, data) = encrypt(&master_key, &data.to_string());
-        format!(r"Passman v{} https://github.com/zmbush/passman
+        format!(r"Vault v{} https://github.com/zmbush/passman
 {}
 {}
 {}",
             self.version,
             salt.to_base64(base64::STANDARD),
             iv.to_base64(base64::STANDARD),
-            data.to_base64(base64::MIME)
+            data.to_base64(base64::Config { newline: base64::Newline::LF, .. base64::MIME })
         )
     }
 }
