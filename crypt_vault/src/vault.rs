@@ -3,7 +3,7 @@ use rustc_serialize::base64::{self, ToBase64, FromBase64};
 use std::fmt::Debug;
 use std::str::FromStr;
 
-use error::{PassmanError, PMResult};
+use error::{VaultError, VResult};
 use crypto::{encrypt, decrypt, gen_bytes, getpass, derive_key};
 
 #[derive(Debug)]
@@ -44,18 +44,18 @@ impl<T: Decodable + Encodable + Debug> ToString for Vault<T> {
 }
 
 impl<T: Decodable + Encodable + Debug> FromStr for Vault<T> {
-    type Err = PassmanError;
+    type Err = VaultError;
 
-    fn from_str(s: &str) -> PMResult<Vault<T>> {
+    fn from_str(s: &str) -> VResult<Vault<T>> {
         let re = regex!(r"v([.\d]+)");
 
         let mut lines = s.lines_any();
         let version = match re.captures(lines.next().unwrap_or("")) {
             Some(cap) => match cap.at(1) {
                 Some(mat) => mat,
-                None => return Err(PassmanError::VersionMatchError)
+                None => return Err(VaultError::VersionMatchError)
             },
-            None => return Err(PassmanError::VersionMatchError)
+            None => return Err(VaultError::VersionMatchError)
         };
 
         let salt = try!(lines.next().unwrap_or("").from_base64());

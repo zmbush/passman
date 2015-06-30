@@ -5,7 +5,7 @@
 extern crate rustc_serialize;
 #[macro_use] extern crate crypt_vault;
 
-use crypt_vault::error::PassmanError;
+use crypt_vault::error::VaultError;
 use crypt_vault::vault::Vault;
 use rustc_serialize::{Decoder, Encoder};
 
@@ -27,7 +27,7 @@ fn get_vault() -> Vault<Password> {
         file.read_to_string(&mut data).ok().expect("Nothing in data file!");
         return loop_until_some! {
             match data.parse() {
-                Err(PassmanError::JsonDecoderError(_)) => {
+                Err(VaultError::JsonDecoderError(_)) => {
                     println!("Bad password");
                     None
                 },

@@ -1,21 +1,23 @@
-use rustc_serialize::{json, base64};
+use rustc_serialize::json::DecoderError;
+use rustc_serialize::base64::FromBase64Error;
+
 #[derive(Debug)]
-pub enum PassmanError {
-    FromBase64Error(base64::FromBase64Error),
-    JsonDecoderError(json::DecoderError),
+pub enum VaultError {
+    FromBase64Error(FromBase64Error),
+    JsonDecoderError(DecoderError),
     VersionMatchError
 }
 
-pub type PMResult<T> = Result<T, PassmanError>;
+pub type VResult<T> = Result<T, VaultError>;
 
-impl From<json::DecoderError> for PassmanError {
-    fn from(v: json::DecoderError) -> PassmanError {
-        PassmanError::JsonDecoderError(v)
+impl From<DecoderError> for VaultError {
+    fn from(v: DecoderError) -> VaultError {
+        VaultError::JsonDecoderError(v)
     }
 }
 
-impl From<base64::FromBase64Error> for PassmanError {
-    fn from(v: base64::FromBase64Error) -> PassmanError {
-        PassmanError::FromBase64Error(v)
+impl From<FromBase64Error> for VaultError {
+    fn from(v: FromBase64Error) -> VaultError {
+        VaultError::FromBase64Error(v)
     }
 }
