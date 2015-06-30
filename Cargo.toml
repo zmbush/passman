@@ -4,12 +4,9 @@ version = "0.0.0"
 
 [dependencies]
 rustc-serialize = "*"
-toml = "*"
-rand = "*"
-openssl = "*"
-rpassword = "*"
-regex = "*"
-regex_macros = "*"
 
 [dependencies.clippy]
 git = "https://github.com/Manishearth/rust-clippy"
+
+[dependencies.crypt_vault]
+path = "crypt_vault"

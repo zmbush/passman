@@ -1,21 +1,13 @@
-#![feature(vec_push_all, plugin)]
-#![plugin(regex_macros, clippy)]
+#![feature(plugin)]
+#![plugin(clippy)]
 #![deny(bad_style, unused, clippy)]
 
-extern crate openssl;
-extern crate rand;
-extern crate regex;
-extern crate rpassword;
 extern crate rustc_serialize;
+#[macro_use] extern crate crypt_vault;
 
-#[macro_use] mod macros;
-mod vault;
-mod crypto;
-mod error;
-
-use error::PassmanError;
+use crypt_vault::error::PassmanError;
+use crypt_vault::vault::Vault;
 use rustc_serialize::{Decoder, Encoder};
-use vault::Vault;
 
 use std::io::{Read, Write};
 use std::env;
