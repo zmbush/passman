@@ -4,9 +4,10 @@ version = "0.0.0"
 
 [dependencies]
 rustc-serialize = "*"
+rpassword = "*"
 
-[dependencies.clippy]
-git = "https://github.com/Manishearth/rust-clippy"
+# [dependencies.clippy]
+# git = "https://github.com/Manishearth/rust-clippy"
 
-[dependencies.crypt_vault]
-path = "crypt_vault"
+[dependencies.crypto_vault]
+path = "../crypto_vault"
